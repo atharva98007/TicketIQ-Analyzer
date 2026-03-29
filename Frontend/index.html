@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TicketIQ — AI Support Ticket Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="app-shell">
+  <header class="site-header neon-header" id="site-header">
+    <div class="site-header__glow" aria-hidden="true"></div>
+    <div class="site-header__inner">
+      <div class="site-header__brand">
+        <span class="site-header__logo-dot"></span>
+        <div>
+          <p class="site-header__eyebrow">Enterprise-grade triage</p>
+          <h1 class="site-header__title">TicketIQ Analyzer</h1>
+        </div>
+      </div>
+      <div class="site-header__actions">
+        <button type="button" class="btn-icon-pill" id="btn-voice" title="Voice input (dictate into ticket)">
+          <span aria-hidden="true">🎤</span>
+          <span class="btn-icon-pill__text">Voice</span>
+        </button>
+        <button type="button" class="btn-icon-pill" id="btn-theme" title="Toggle light / dark mode" aria-pressed="true">
+          <span class="theme-icon" id="theme-icon" aria-hidden="true">🌙</span>
+          <span class="btn-icon-pill__text" id="theme-label">Dark</span>
+        </button>
+      </div>
+    </div>
+    <p class="site-header__tagline">Neon-glass workspace · Real AI when deployed with Groq · Live analytics</p>
+  </header>
+
+  <main class="app-main">
+    <div class="app-grid">
+      <!-- Left: analyzer + stats + model & product -->
+      <div class="col-analyzer">
+        <section class="glass-card analyzer-card" aria-labelledby="analyzer-heading">
+          <h2 id="analyzer-heading" class="card-title">Ticket analyzer</h2>
+          <p class="card-lead">Paste a conversation. We score priority, intent, sentiment, and draft a reply.</p>
+          <form class="analyzer-form" id="analyzer-form" novalidate>
+            <div class="field-row">
+              <label class="field-label" for="ticket-input">Support ticket or thread</label>
+              <span class="field-hint" id="voice-status" aria-live="polite"></span>
+            </div>
+            <textarea
+              id="ticket-input"
+              class="ticket-textarea"
+              name="ticket"
+              rows="9"
+              placeholder="Customer: ‘We were double-charged after upgrading. Order #4521 — need refund today.’&#10;&#10;Paste the full thread…"
+              spellcheck="true"
+            ></textarea>
+            <div class="form-actions">
+              <button type="button" class="btn-ghost" id="btn-voice-inline" title="Start voice dictation">
+                🎤 Dictate
+              </button>
+              <button type="submit" class="btn-analyze" id="btn-analyze">
+                <svg class="btn-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M12 3L14.5 9.5L21 10.5L14.5 11.5L12 18L9.5 11.5L3 10.5L9.5 9.5L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M19 14L19.8 16.5L22.5 17.3L19.8 18.1L19 20.5L18.2 18.1L15.5 17.3L18.2 16.5L19 14Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                </svg>
+                <span>Run analysis</span>
+              </button>
+            </div>
+          </form>
+          <p class="api-banner" id="api-banner" role="status">
+            <span class="api-banner__dot"></span>
+            <span id="api-banner-text">Local mode: smart heuristics. Deploy to Netlify + add <strong>GROQ_API_KEY</strong> for live LLM.</span>
+          </p>
+        </section>
+
+        <section class="stats-strip" id="stats-strip" aria-label="Session statistics">
+          <article class="stat-chip">
+            <span class="stat-chip__label">Runs</span>
+            <span class="stat-chip__value" id="stat-runs">0</span>
+          </article>
+          <article class="stat-chip">
+            <span class="stat-chip__label">Last priority</span>
+            <span class="stat-chip__value stat-chip__value--pill" id="stat-priority">—</span>
+          </article>
+          <article class="stat-chip">
+            <span class="stat-chip__label">Last sentiment</span>
+            <span class="stat-chip__value" id="stat-sentiment">—</span>
+          </article>
+        </section>
+
+        <section class="glass-card features-card" aria-labelledby="features-heading">
+          <h2 id="features-heading" class="card-title">Model &amp; product</h2>
+          <p class="card-lead">Everything judges see in one glass panel — shipping-ready patterns for a premium SaaS.</p>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-item__icon" aria-hidden="true">🤖</span>
+              <div>
+                <h3 class="feature-item__title">Real AI (Groq / Llama 3.2:1b)</h3>
+                <p class="feature-item__text">Serverless function calls Groq’s free tier. Set <code class="inline-code">GROQ_API_KEY</code> in Netlify; static sites call <code class="inline-code">/.netlify/functions/analyze</code>.</p>
+              </div>
+            </li>
+            <li class="feature-item">
+              <span class="feature-item__icon" aria-hidden="true">🎤</span>
+              <div>
+                <h3 class="feature-item__title">Voice input</h3>
+                <p class="feature-item__text">Browser speech recognition dictates directly into the ticket field (Chrome / Edge).</p>
+              </div>
+            </li>
+            <li class="feature-item">
+              <span class="feature-item__icon" aria-hidden="true">🌙</span>
+              <div>
+                <h3 class="feature-item__title">Theme system</h3>
+                <p class="feature-item__text">Dark neon default; light glass mode for daytime demos — persisted in <code class="inline-code">localStorage</code>.</p>
+              </div>
+            </li>
+            <li class="feature-item">
+              <span class="feature-item__icon" aria-hidden="true">📊</span>
+              <div>
+                <h3 class="feature-item__title">Live charts</h3>
+                <p class="feature-item__text">Chart.js updates priority mix after each analysis for instant analytics storytelling.</p>
+              </div>
+            </li>
+            <li class="feature-item">
+              <span class="feature-item__icon" aria-hidden="true">🌐</span>
+              <div>
+                <h3 class="feature-item__title">Deploy for judges</h3>
+                <p class="feature-item__text">Drag this folder to Netlify (publish: <code class="inline-code">.</code>, functions: <code class="inline-code">netlify/functions</code>). Add your API key in site env vars.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Right: results + session analytics -->
+      <aside class="col-features" aria-label="Analysis output">
+        <section class="glass-card results-wrap" id="results-section" aria-live="polite" aria-busy="false">
+          <div class="results-head">
+            <h2 class="card-title card-title--sm">Results</h2>
+            <p class="results-hint" id="results-hint">Priority cards: <span class="legend legend--high">High</span> · <span class="legend legend--med">Medium</span> · <span class="legend legend--low">Low</span></p>
+          </div>
+          <div class="results-grid" id="results-grid">
+            <p class="results-empty" id="results-empty">No analysis yet. Add a ticket and run analysis.</p>
+          </div>
+        </section>
+
+        <section class="glass-card chart-card" aria-labelledby="chart-heading">
+          <div class="chart-head">
+            <h2 id="chart-heading" class="card-title card-title--sm">📊 Session analytics</h2>
+            <p class="card-lead card-lead--sm">Priority distribution across runs this session.</p>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="analytics-chart" aria-label="Bar chart of priority counts"></canvas>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
