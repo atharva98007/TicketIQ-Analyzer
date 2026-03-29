@@ -8,8 +8,6 @@ Stop overpaying. Use data to find the "floor" of the market before you hit "Buy.
 ✨ Key Features
 🔍 Multi-Platform Scraping: Aggregates listings from TicketIQ, StubHub, and SeatGeek (via Selenium/BeautifulSoup).
 
-💰 All-In Pricing: Automatically calculates hidden service fees to show the true cost-to-consumer.
-
 📉 Trend Monitoring: Tracks price decay over time as the event date approaches.
 
 ⚖️ Value Scoring: A proprietary algorithm that ranks seats based on Section Location vs. Historical Average Price.
@@ -25,4 +23,5 @@ Web Scraping: Selenium, BeautifulSoup4
 
 Visualization: Matplotlib, Seaborn
 
-Database: SQLite (for historical price tracking)
+Agentic AI 
+LLM- llama 3.2:1b
