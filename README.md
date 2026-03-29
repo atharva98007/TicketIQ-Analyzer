@@ -25,3 +25,7 @@ Visualization: Matplotlib, Seaborn
 
 Agentic AI 
 LLM- llama 3.2:1b
+
+
+FINAL PPT :-
+https://docs.google.com/presentation/d/1UzzKA31LkL_MXWHsPHdK3ma-jeJN3A3V/edit?usp=sharing&ouid=115739434343298004414&rtpof=true&sd=true
